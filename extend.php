@@ -3,11 +3,12 @@
 namespace S1Ranjan\Pages;
 
 use Flarum\Extend;
-use S1Ranjan\Pages\Middleware\ResolvePage;
+use S1Ranjan\Pages\Api\PageController;
 
 return [
 
-    (new Extend\Middleware('forum'))
-        ->add(ResolvePage::class),
+    (new Extend\Content)
+        ->route('/{slug}')
+        ->action(PageController::class),
 
 ];

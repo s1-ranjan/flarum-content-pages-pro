@@ -1,27 +1,35 @@
 <?php
 
-namespace S1Ranjan\ContentPages\Api;
+namespace S1Ranjan\Pages\Api;
 
-use Illuminate\Support\Arr;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Tobscure\JsonApi\Document;
-use S1Ranjan\ContentPages\Page;
+use S1Ranjan\Pages\PageRepository;
 
 class PageController
 {
-    public function index(ServerRequestInterface $request, Document $document)
+    protected $pages;
+
+    public function __construct(PageRepository $pages)
     {
-        return Page::all();
+        $this->pages = $pages;
     }
 
-    public function store(ServerRequestInterface $request)
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $data = Arr::get($request->getParsedBody(), 'data.attributes');
+        $slug = $request->getAttribute('slug');
 
-        return Page::create([
-            'title' => $data['title'],
-            'slug' => $data['slug'],
-            'content' => $data['content']
-        ]);
+        if (!$slug) {
+            return new HtmlResponse('', 404);
+        }
+
+        $page = $this->pages->findBySlug($slug);
+
+        if (!$page) {
+            return new HtmlResponse('', 404);
+        }
+
+        return new HtmlResponse($page->content);
     }
 }
