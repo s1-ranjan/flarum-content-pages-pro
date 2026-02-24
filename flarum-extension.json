@@ -1,0 +1,9 @@
+{
+  "name": "s1ranjan-pages",
+  "title": "Pages Pro",
+  "icon": {
+    "name": "fas fa-file",
+    "backgroundColor": "#2563eb",
+    "color": "#ffffff"
+  }
+}

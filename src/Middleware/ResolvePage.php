@@ -6,7 +6,7 @@ use Laminas\Diactoros\Response\HtmlResponse;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
-use S1Ranjan\Pages\Model\Page;
+use S1Ranjan\Pages\PageRepository;
 
 class ResolvePage implements MiddlewareInterface
 {
@@ -14,37 +14,16 @@ class ResolvePage implements MiddlewareInterface
     {
         $path = trim($request->getUri()->getPath(), '/');
 
-        if ($this->isReserved($path)) {
+        if ($path === '' || str_starts_with($path, 't/') || str_starts_with($path, 'd/')) {
             return $handler->handle($request);
         }
 
-        $page = cache()->remember("page_".$path, 3600, function () use ($path) {
-            return Page::where('slug', $path)->where('is_published', 1)->first();
-        });
+        $page = resolve(PageRepository::class)->findBySlug($path);
 
         if (!$page) {
             return $handler->handle($request);
         }
 
         return new HtmlResponse($page->content);
-    }
-
-    private function isReserved($slug)
-    {
-        $reserved = [
-            '',
-            'all',
-            'following',
-            'tags',
-            'admin',
-            'api',
-            'login',
-            'logout',
-            'register',
-            'd',
-            't'
-        ];
-
-        return in_array($slug, $reserved);
     }
 }

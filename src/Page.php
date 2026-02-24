@@ -1,12 +1,12 @@
 <?php
 
-namespace S1Ranjan\ContentPages;
+namespace S1Ranjan\Pages;
 
 use Flarum\Database\AbstractModel;
 
 class Page extends AbstractModel
 {
-    protected $table = 'content_pages';
+    protected $table = 'pages';
 
     protected $fillable = [
         'title',

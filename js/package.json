@@ -1,12 +1,10 @@
 {
-  "name": "s1ranjan-content-pages",
+  "name": "flarum-pages",
   "private": true,
   "devDependencies": {
-    "flarum-webpack-config": "^2.0.0",
-    "webpack": "^5"
+    "flarum-webpack-config": "*"
   },
   "scripts": {
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack"
   }
 }
