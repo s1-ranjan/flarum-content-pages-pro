@@ -1,26 +1,22 @@
 {
   "name": "s1ranjan/flarum-content-pages-pro",
-  "description": "Professional Page Builder for Flarum",
+  "description": "Professional static content pages for Flarum with SEO URLs, blocks and caching.",
   "type": "flarum-extension",
   "license": "MIT",
-
   "require": {
     "flarum/core": "^1.8"
   },
-
   "autoload": {
     "psr-4": {
-      "S1Ranjan\\ContentPagesPro\\": "src/"
+      "S1Ranjan\\Pages\\": "src/"
     }
   },
-
   "extra": {
     "flarum-extension": {
       "title": "Content Pages Pro",
-      "category": "feature",
       "icon": {
         "name": "fas fa-file-alt",
-        "backgroundColor": "#1e40af",
+        "backgroundColor": "#3b82f6",
         "color": "#ffffff"
       }
     }
