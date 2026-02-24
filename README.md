@@ -11,13 +11,13 @@ git push origin v0.0.0
 Install with composer:
 
 ```sh
-composer require s1-ranjan/flarum-content-pages:"*"
+composer require s1ranjan/flarum-content-pages:"*"
 ```
 
 ## Updating
 
 ```sh
-composer update s1-ranjan/flarum-content-pages:"*"
+composer update s1ranjan/flarum-content-pages:"*"
 php flarum migrate
 php flarum cache:clear
 ```
