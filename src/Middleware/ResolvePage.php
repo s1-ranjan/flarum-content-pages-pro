@@ -1,33 +1,50 @@
 <?php
 
-namespace S1Ranjan\ContentPages\Middleware;
+namespace S1Ranjan\Pages\Middleware;
 
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Laminas\Diactoros\Response\HtmlResponse;
-use Psr\Http\Server\RequestHandlerInterface as Handler;
-use S1Ranjan\ContentPages\Page;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use S1Ranjan\Pages\Model\Page;
 
-class ResolvePage
+class ResolvePage implements MiddlewareInterface
 {
-    public function process(Request $request, Handler $handler)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         $path = trim($request->getUri()->getPath(), '/');
 
-        if (!$path) {
+        if ($this->isReserved($path)) {
             return $handler->handle($request);
         }
 
-        $page = Page::where('slug', $path)->first();
+        $page = cache()->remember("page_".$path, 3600, function () use ($path) {
+            return Page::where('slug', $path)->where('is_published', 1)->first();
+        });
 
         if (!$page) {
             return $handler->handle($request);
         }
 
-        return new HtmlResponse(
-            "<div style='max-width:900px;margin:40px auto'>
-            <h1>{$page->title}</h1>
-            {$page->content}
-            </div>"
-        );
+        return new HtmlResponse($page->content);
+    }
+
+    private function isReserved($slug)
+    {
+        $reserved = [
+            '',
+            'all',
+            'following',
+            'tags',
+            'admin',
+            'api',
+            'login',
+            'logout',
+            'register',
+            'd',
+            't'
+        ];
+
+        return in_array($slug, $reserved);
     }
 }

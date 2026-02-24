@@ -1,8 +1,10 @@
 import app from 'flarum/admin/app';
-import ExtensionPage from './pages/ExtensionPage';
+import PagesApp from './PagesApp';
 
-app.initializers.add('s1ranjan-content-pages', () => {
+app.initializers.add('s1ranjan-pages', () => {
+
   app.extensionData
-    .for('s1ranjan-content-pages')
-    .registerPage(ExtensionPage);
+    .for('s1ranjan-pages')
+    .registerPage(PagesApp);
+
 });

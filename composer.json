@@ -1,20 +1,26 @@
 {
-  "name": "s1ranjan/content-pages",
-  "description": "Custom content pages for Flarum",
+  "name": "s1ranjan/flarum-pages",
+  "description": "Professional page builder for Flarum",
   "type": "flarum-extension",
+  "license": "MIT",
+
   "require": {
     "flarum/core": "^1.8"
   },
+
   "autoload": {
     "psr-4": {
-      "S1Ranjan\\ContentPages\\": "src/"
+      "S1Ranjan\\Pages\\": "src/"
     }
   },
+
   "extra": {
     "flarum-extension": {
-      "title": "Content Pages",
+      "title": "Pages Pro",
       "icon": {
-        "name": "fas fa-file"
+        "name": "fas fa-file-alt",
+        "backgroundColor": "#2563eb",
+        "color": "#fff"
       }
     }
   }
